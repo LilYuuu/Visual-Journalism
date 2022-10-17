@@ -7,7 +7,7 @@ var projection = d3.geo.mercator()
     // .scale(1926.150530455163)
     .scale(3000)
     .center([69.356282245,30.623220608220056]) //projection center
-    .translate([width/2,height/2]) //translate to center the map in view
+    .translate([width/2,height/2-80]) //translate to center the map in view
 
 //Generate paths based on projection
 var path = d3.geo.path()
@@ -38,7 +38,7 @@ svg.call(zoom);
 //Create a tooltip, hidden at the start
 var tooltip = d3.select("body").append("div").attr("class","tooltip");
 
-d3.json("https://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode:pak_ica_floodrisk_geonode_apr2017&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature",function(error,geodata) {
+d3.json("cleaned_flood_data.json",function(error,geodata) {
   if (error) return console.log(error); //unknown error, check the console
 
   //Create a path for each map feature in the data
@@ -77,7 +77,7 @@ function showTooltip(d) {
   moveTooltip();
 
   tooltip.style("display","block")
-      .html("District: " + d.properties.Districts + ", <br> Province: " + d.properties.Province + ", <br> Flood Hazard: " + d.properties.Flood_Haza);
+      .html("District: " + d.properties.Districts + ", <br> Province: " + d.properties.Province + ", <br> Flood Hazard: " + d.properties.Flood_Haza + ", <br> Affected Population: " + d.properties.affected_population);
 }
 
 //Move the tooltip to track the mouse

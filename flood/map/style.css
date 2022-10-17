@@ -1,14 +1,16 @@
 body {
   font: 12px sans-serif;
-  background-color: white;
+  background-color: lightgrey;
 }
 
 h1 {
   display: block;
-  margin: auto 20px;
+  margin: 50px auto;
   text-align: center;
+  background: none;
+  /* z-index: -1; */
 }
-  
+ 
 path {
   stroke-width: 1px;
   stroke: darkgrey;
@@ -40,4 +42,9 @@ div.tooltip {
   font-weight: bold;
   padding: 4px 8px;
   display: none;
+}
+
+svg {
+  display: block;
+  z-index: -1;
 }
