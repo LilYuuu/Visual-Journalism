@@ -1,26 +1,43 @@
 //Map dimensions (in pixels)
-var width = 1080,
-    height = 800;
+var width = window.innerWidth,
+    height = window.innerHeight;
 
 //Map projection
 var projection = d3.geo.mercator()
     // .scale(1926.150530455163)
-    .scale(2600)
+    .scale(2000)
     .center([69.356282245, 30.623220608220056]) //projection center
-    .translate([width / 2, height / 2]) //translate to center the map in view
+    .translate([width / 4, height / 2 - 80]) //translate to center the map in view
+
+var projection2 = d3.geo.mercator()
+    // .scale(1926.150530455163)
+    .scale(2000)
+    .center([69.356282245, 30.623220608220056]) //projection center
+    .translate([width / 4 * 3, height / 2 - 80]) //translate to center the map in view
 
 //Generate paths based on projection
 var path = d3.geo.path()
     .projection(projection);
+
+//Generate paths based on projection
+var path2 = d3.geo.path()
+    .projection(projection2);
 
 //Create an SVG
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var svg2 = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
 //Group for the map features
 var features = svg.append("g")
     .attr("class", "features");
+
+var features2 = svg2.append("g")
+    .attr("class", "features2");
 
 //Create choropleth scale
 var color = d3.scale.quantize()
@@ -34,6 +51,7 @@ var zoom = d3.behavior.zoom()
     .on("zoom", zoomed);
 
 svg.call(zoom);
+svg2.call(zoom);
 
 //Create a tooltip, hidden at the start
 var tooltip = d3.select("body").append("div").attr("class", "tooltip");
@@ -47,6 +65,18 @@ d3.json("cleaned_flood_data.json", function (error, geodata) {
         .enter()
         .append("path")
         .attr("d", path)
+        .attr("class", function (d) { return (typeof color(d.properties.Flood_CL) == "string" ? color(d.properties.Flood_CL) : ""); })
+        .on("mouseover", showTooltip)
+        // .on("mouseover", function(d) {console.log(d.attr(path));})
+        .on("mousemove", moveTooltip)
+        .on("mouseout", hideTooltip)
+        .on("click", clicked);
+    
+    features2.selectAll("path2")
+        .data(geodata.features)
+        .enter()
+        .append("path2")
+        .attr("d", path2)
         .attr("class", function (d) { return (typeof color(d.properties.Flood_CL) == "string" ? color(d.properties.Flood_CL) : ""); })
         .on("mouseover", showTooltip)
         // .on("mouseover", function(d) {console.log(d.attr(path));})
@@ -76,6 +106,9 @@ function clicked(d, i) {
 function zoomed() {
     features.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
         .selectAll("path").style("stroke-width", 1 / zoom.scale() + "px");
+
+    features2.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
+    .selectAll("path2").style("stroke-width", 1 / zoom.scale() + "px");
 }
 
 

@@ -1,19 +1,22 @@
 body {
   font: 12px sans-serif;
   background-color: lightgrey;
+  align-content: center;
+  text-align: center;
+  background-image: url("bg.jpeg");
 }
 
 h1 {
   display: block;
-  margin: 50px auto;
+  margin: 40px auto 40px auto;
   text-align: center;
   background: none;
-  /* z-index: -1; */
+  font-size: 38px;
 }
  
 path {
   stroke-width: 1px;
-  stroke: darkgrey;
+  /* stroke: darkgrey; */
   fill: #999;
   cursor: pointer;
 }
@@ -39,12 +42,22 @@ div.tooltip {
   background-color: white;
   border: 1px solid black;
   color: black;
-  font-weight: bold;
-  padding: 4px 8px;
+  /* font-weight: bold; */
+  padding: 12px 16px;
   display: none;
+  border-radius: 10px;
 }
 
 svg {
-  display: block;
+  /* display: inline-block; */
+  width: 1080px;
+  height: 800px;
   z-index: -1;
+  padding: 10px;
+  /* border: solid 2px darkblue; */
+  overflow: scroll;
+  align-content: center;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.85);
+  /* opacity: 0.95; */
 }
